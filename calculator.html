@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор дохода Siberian Wellness • 30-й год</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .card { background: #12162B; border: 1px solid #1E2550; border-radius: 16px; }
+    input[type="range"] { accent-color: #C9A84C; }
+    .warning { background: #3F2A1E; border-left: 4px solid #F59E0B; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#0D1022] via-[#1A1F3C] to-[#0D1022] text-[#E8F0FA] min-h-screen pb-12">
+
+  <div class="max-w-[520px] mx-auto px-4 pt-6">
+    <div class="text-center py-8 border-b border-[#C9A84C33]">
+      <div class="text-4xl mb-3">❄️</div>
+      <div class="text-[#C9A84C] uppercase tracking-widest text-sm">Siberian Wellness • 30-й бизнес-год</div>
+      <h1 class="text-3xl font-bold mt-1 bg-gradient-to-r from-[#C9A84C] to-[#F0D080] bg-clip-text text-transparent">
+        Калькулятор дохода
+      </h1>
+    </div>
+
+    <div class="space-y-6 mt-8">
+
+      <!-- Общий оборот -->
+      <div class="card p-6">
+        <label class="block text-xs uppercase tracking-widest text-[#8A9CC8] mb-3">Общий товарооборот команды (₽ с НДС)</label>
+        <input id="totalSales" type="number" value="240000" 
+               class="w-full bg-[#0D1022] border-2 border-[#C9A84C] rounded-2xl px-6 py-5 text-3xl text-center outline-none font-medium">
+        <div id="totalBalls" class="text-center text-sm text-[#8A9CC8] mt-3 font-medium"></div>
+      </div>
+
+      <!-- Ранг -->
+      <div class="card p-6">
+        <label class="block text-xs uppercase tracking-widest text-[#8A9CC8] mb-3">Твой ранг</label>
+        <select id="rankSelect" class="w-full bg-[#0D1022] border border-[#2A3060] rounded-2xl px-5 py-4 text-lg outline-none"></select>
+        <div id="rankRequirement" class="mt-4 text-sm"></div>
+      </div>
+
+      <!-- Параметры -->
+      <div class="card p-6 space-y-8">
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#C9A84C] mb-2">
+            <span>Мои покупки (баллов)</span><span id="myBallsVal">300</span>
+          </div>
+          <input type="range" id="myBalls" min="100" max="1200" step="25" value="300" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#2ABFBF] mb-2">
+            <span>Привилегированных клиентов</span><span id="pkCountVal">10</span>
+          </div>
+          <input type="range" id="pkCount" min="0" max="40" value="10" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#2ABFBF] mb-2">
+            <span>Баллы одного клиента</span><span id="pkBallsVal">90</span>
+          </div>
+          <input type="range" id="pkBalls" min="30" max="200" step="10" value="90" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#C9A84C] mb-2">
+            <span>Партнёров 1-й линии</span><span id="bpCountVal">6</span>
+          </div>
+          <input type="range" id="bpCount" min="0" max="30" value="6" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#C9A84C] mb-2">
+            <span>Средний оборот 1 партнёра (баллов)</span><span id="bpBallsVal">800</span>
+          </div>
+          <input type="range" id="bpBalls" min="200" max="5000" step="50" value="800" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#C9A84C] mb-2">
+            <span>Business Profi в структуре (по 20 000+ баллов)</span><span id="profiCountVal">2</span>
+          </div>
+          <input type="range" id="profiCount" min="0" max="20" value="2" class="w-full">
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs uppercase tracking-widest text-[#2ABFBF] mb-2">
+            <span>Новых в Club 200 (1-я линия)</span><span id="newClub200Val">4</span>
+          </div>
+          <input type="range" id="newClub200" min="0" max="15" value="4" class="w-full">
+        </div>
+      </div>
+
+      <!-- ИТОГ -->
+      <div class="card p-8 border-2 border-[#C9A84C] bg-gradient-to-br from-[#1A1F3C] to-[#12162B]">
+        <div class="uppercase text-xs tracking-widest text-[#8A9CC8]">Примерный доход в месяц</div>
+        <div id="totalIncome" class="text-5xl font-bold mt-3 bg-gradient-to-r from-[#C9A84C] to-[#F0D080] bg-clip-text text-transparent">0 ₽</div>
+        
+        <div id="breakdown" class="mt-8 space-y-3 text-sm"></div>
+        <div id="warnings" class="mt-6 space-y-2 text-xs"></div>
+      </div>
+
+      <div class="text-center text-xs text-[#5A6A8A] pt-6">
+        Калькулятор создан для удобства • Все расчёты — приблизительные
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RTO_PER_BALL = 40;
+    const OTO_PER_BALL = 17;
+
+    const RANKS = [
+      {name:"Business Team 1000", oo:1000, pct:12, profiReq:0},
+      {name:"Business Team 2500", oo:2500, pct:19, profiReq:0},
+      {name:"Business Team 5000", oo:5000, pct:25, profiReq:0},
+      {name:"Business Team 10 000", oo:10000, pct:31, profiReq:0},
+      {name:"Business Profi", oo:20000, pct:37, profiReq:0},
+      {name:"Business Leader", oo:40000, pct:37, profiReq:1},
+      {name:"Sapphire Business Leader", oo:100000, pct:37, profiReq:3},
+      {name:"Ruby Business Leader", oo:200000, pct:37, profiReq:5}
+    ];
+
+    const els = {
+      totalSales: document.getElementById('totalSales'),
+      rankSelect: document.getElementById('rankSelect'),
+      totalIncome: document.getElementById('totalIncome'),
+      breakdown: document.getElementById('breakdown'),
+      warnings: document.getElementById('warnings'),
+      rankRequirement: document.getElementById('rankRequirement')
+    };
+
+    RANKS.forEach((r, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = r.name;
+      els.rankSelect.appendChild(opt);
+    });
+
+    function setDefaults(rankIdx) {
+      const defaults = [300,10,90,6,800,2,4]; // my, pkC, pkB, bpC, bpB, profi, newC
+      document.getElementById('myBalls').value = defaults[0];
+      document.getElementById('pkCount').value = defaults[1];
+      document.getElementById('pkBalls').value = defaults[2];
+      document.getElementById('bpCount').value = defaults[3];
+      document.getElementById('bpBalls').value = defaults[4];
+      document.getElementById('profiCount').value = defaults[5];
+      document.getElementById('newClub200').value = defaults[6];
+    }
+
+    function updateLabels() {
+      document.getElementById('myBallsVal').textContent = document.getElementById('myBalls').value;
+      document.getElementById('pkCountVal').textContent = document.getElementById('pkCount').value;
+      document.getElementById('pkBallsVal').textContent = document.getElementById('pkBalls').value;
+      document.getElementById('bpCountVal').textContent = document.getElementById('bpCount').value;
+      document.getElementById('bpBallsVal').textContent = document.getElementById('bpBalls').value;
+      document.getElementById('profiCountVal').textContent = document.getElementById('profiCount').value;
+      document.getElementById('newClub200Val').textContent = document.getElementById('newClub200').value;
+    }
+
+    function calculate() {
+      const rankIdx = parseInt(els.rankSelect.value);
+      const rank = RANKS[rankIdx];
+
+      const myBalls = +document.getElementById('myBalls').value || 0;
+      const pkCount = +document.getElementById('pkCount').value || 0;
+      const pkBalls = +document.getElementById('pkBalls').value || 0;
+      const bpCount = +document.getElementById('bpCount').value || 0;
+      const bpBalls = +document.getElementById('bpBalls').value || 0;
+      const newClub200 = +document.getElementById('newClub200').value || 0;
+
+      const myRto = myBalls * RTO_PER_BALL;
+      const pkCbPct = pkBalls >= 100 ? 0.15 : pkBalls >= 50 ? 0.10 : 0.05;
+      const pkRto = pkBalls * RTO_PER_BALL;
+
+      const cashback = myRto * 0.25;
+      const pkRetail = pkCount * pkRto * (0.25 - pkCbPct);
+      const loyalty = (myRto + pkCount * pkRto) * 0.05;
+      const wholesale = (myBalls + pkCount * pkBalls) * OTO_PER_BALL * (rank.pct / 100);
+      const structure = bpCount * bpBalls * OTO_PER_BALL * (rank.pct / 100);
+      const bizBonus = newClub200 * 2000;
+
+      const total = Math.round(cashback + pkRetail + loyalty + wholesale + structure + bizBonus);
+
+      els.totalIncome.textContent = total.toLocaleString('ru-RU') + ' ₽';
+
+      els.breakdown.innerHTML = `
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">Кэшбэк личный</span><span>${Math.round(cashback).toLocaleString('ru-RU')} ₽</span></div>
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">С клиентов</span><span>${Math.round(pkRetail).toLocaleString('ru-RU')} ₽</span></div>
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">Бонус лояльности</span><span>${Math.round(loyalty).toLocaleString('ru-RU')} ₽</span></div>
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">Оптовая премия</span><span>${Math.round(wholesale).toLocaleString('ru-RU')} ₽</span></div>
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">Премия с веток</span><span>${Math.round(structure).toLocaleString('ru-RU')} ₽</span></div>
+        <div class="flex justify-between py-1"><span class="text-[#8A9CC8]">Business Bonus</span><span>${Math.round(bizBonus).toLocaleString('ru-RU')} ₽</span></div>
+      `;
+
+      // Warnings
+      let warnings = '';
+      const totalBalls = Math.round(+els.totalSales.value / 48);
+      const strongest = bpCount * bpBalls;
+      if (rank.oo >= 5000 && strongest > totalBalls * 0.6) {
+        warnings += `<div class="warning p-3 rounded-lg">⚠️ Нарушено правило 60/40 (самая сильная ветка > 60%)</div>`;
+      }
+      if (rank.profiReq > 0 && +document.getElementById('profiCount').value < rank.profiReq) {
+        warnings += `<div class="warning p-3 rounded-lg">⚠️ Для ранга нужно минимум ${rank.profiReq} Business Profi</div>`;
+      }
+      els.warnings.innerHTML = warnings;
+    }
+
+    function updateRankReq() {
+      const rank = RANKS[+els.rankSelect.value];
+      let text = '';
+      if (rank.profiReq > 0) {
+        text = `Для квалификации нужно минимум <strong>${rank.profiReq} Business Profi</strong> в структуре`;
+      }
+      els.rankRequirement.innerHTML = text;
+    }
+
+    // Слушатели
+    document.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', () => {
+        updateLabels();
+        updateRankReq();
+        calculate();
+      });
+    });
+
+    els.totalSales.addEventListener('input', () => {
+      const balls = Math.round(+els.totalSales.value / 48);
+      document.getElementById('totalBalls').textContent = balls.toLocaleString('ru-RU') + ' баллов';
+      
+      let newRank = 0;
+      for (let i = RANKS.length - 1; i >= 0; i--) {
+        if (balls >= RANKS[i].oo) {
+          newRank = i;
+          break;
+        }
+      }
+      if (+els.rankSelect.value !== newRank) {
+        els.rankSelect.value = newRank;
+        setDefaults(newRank);
+      }
+      updateRankReq();
+      calculate();
+    });
+
+    // Init
+    setDefaults(0);
+    updateLabels();
+    updateRankReq();
+    document.getElementById('totalBalls').textContent = (240000 / 48).toLocaleString('ru-RU') + ' баллов';
+    calculate();
+  </script>
+</body>
+</html>
